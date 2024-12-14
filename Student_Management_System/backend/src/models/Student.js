@@ -23,16 +23,16 @@ const Student = sequelize.define(
       allowNull: false,
       validate: {
         isEmail: true,
-      },
-      dateofBirth: {
+      }
+    },
+    dateofBirth: {
         type: DataTypes.DATEONLY,
-        allowNull: True,
-      },
-      enrollmentDate: {
+        allowNull: true,
+    },
+    enrollmentDate: {
         type: DataTypes.DATEONLY,
         defaultValue: DataTypes.NOW,
-      },
-    },
+    }
   },
   {
     tableName: "students",

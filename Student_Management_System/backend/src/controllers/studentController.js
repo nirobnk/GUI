@@ -2,7 +2,7 @@ const Student = require("../models/Student");
 
 exports.getAllStudents = async (req, res) => {
   try {
-    const student = await Student.findAll();
+    const students = await Student.findAll();
     res.json(students);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -13,7 +13,7 @@ exports.getStudentById = async (req, res) => {
   try {
     const student = await Student.findByPk(req.params.id);
     if (!student) {
-      return res.status(400).json({ message: "Student nof found" });
+      return res.status(404).json({ message: "Student nof found" });
     }
     res.json(student);
   } catch (error) {
