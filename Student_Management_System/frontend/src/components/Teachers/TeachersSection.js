@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Search, Filter, User, ChevronDown, Mail, Phone, Book, GraduationCap } from 'lucide-react';
+import { Search, Filter, User, ChevronDown, Mail, Phone } from 'lucide-react';
+import './TeachersSection.css';
 
 const TeachersSection = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -85,14 +86,14 @@ const TeachersSection = () => {
 
   const SortableHeader = ({ label, field }) => (
     <th
-      className="px-4 py-3 cursor-pointer hover:bg-gray-50"
+      className="sortable-header"
       onClick={() => handleSort(field)}
     >
-      <div className="flex items-center gap-1">
+      <div className="header-content">
         {label}
         <ChevronDown
-          className={`h-4 w-4 transition-transform ${
-            sortConfig.key === field && sortConfig.direction === 'desc' ? 'rotate-180' : ''
+          className={`chevron ${
+            sortConfig.key === field && sortConfig.direction === 'desc' ? 'rotate' : ''
           }`}
         />
       </div>
@@ -100,127 +101,107 @@ const TeachersSection = () => {
   );
 
   return (
-    <div className="p-6 bg-gradient-to-br from-gray-50 to-white">
-      {/* Header with Search and Filters */}
-      <div className="mb-6 flex flex-col md:flex-row gap-4 justify-between">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+    <div className="teachers-section">
+      <div className="header-controls">
+        <div className="search-container">
+          <Search className="search-icon" />
           <input
             type="text"
             placeholder="Search teachers..."
-            className="pl-10 pr-4 py-2 border rounded-lg w-full md:w-96 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            className="search-input"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <Filter className="text-gray-400 h-5 w-5" />
-            <select
-              className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              value={selectedDepartment}
-              onChange={(e) => setSelectedDepartment(e.target.value)}
-            >
-              {departments.map((department) => (
-                <option key={department} value={department}>
-                  {department === 'all' ? 'All Departments' : department}
-                </option>
-              ))}
-            </select>
-          </div>
+        <div className="filter-container">
+          <Filter className="filter-icon" />
+          <select
+            className="department-select"
+            value={selectedDepartment}
+            onChange={(e) => setSelectedDepartment(e.target.value)}
+          >
+            {departments.map((department) => (
+              <option key={department} value={department}>
+                {department === 'all' ? 'All Departments' : department}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
-      {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-        <div className="bg-gradient-to-r from-purple-500 to-purple-400 p-6 rounded-2xl shadow-lg">
-          <h4 className="text-sm text-white/80">Total Teachers</h4>
-          <p className="text-2xl font-semibold text-white">{teachers.length}</p>
+      <div className="stats-grid">
+        <div className="stat-card purple">
+          <h4>Total Teachers</h4>
+          <p>{teachers.length}</p>
         </div>
-        <div className="bg-gradient-to-r from-blue-500 to-blue-400 p-6 rounded-2xl shadow-lg">
-          <h4 className="text-sm text-white/80">Active Teachers</h4>
-          <p className="text-2xl font-semibold text-white">
-            {teachers.filter((t) => t.status === 'Active').length}
-          </p>
+        <div className="stat-card blue">
+          <h4>Active Teachers</h4>
+          <p>{teachers.filter((t) => t.status === 'Active').length}</p>
         </div>
-        <div className="bg-gradient-to-r from-green-500 to-green-400 p-6 rounded-2xl shadow-lg">
-          <h4 className="text-sm text-white/80">Departments</h4>
-          <p className="text-2xl font-semibold text-white">
-            {departments.length - 1}
-          </p>
+        <div className="stat-card green">
+          <h4>Departments</h4>
+          <p>{departments.length - 1}</p>
         </div>
-        <div className="bg-gradient-to-r from-pink-500 to-pink-400 p-6 rounded-2xl shadow-lg">
-          <h4 className="text-sm text-white/80">On Leave</h4>
-          <p className="text-2xl font-semibold text-white">
-            {teachers.filter((t) => t.status === 'On Leave').length}
-          </p>
+        <div className="stat-card pink">
+          <h4>On Leave</h4>
+          <p>{teachers.filter((t) => t.status === 'On Leave').length}</p>
         </div>
       </div>
 
-      {/* Teachers List View */}
-      <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-gray-600">
-              <tr>
-                <SortableHeader label="Name" field="name" />
-                <SortableHeader label="Department" field="department" />
-                <th className="px-4 py-3">Contact</th>
-                <th className="px-4 py-3">Courses</th>
-                <th className="px-4 py-3">Status</th>
+      <div className="teachers-table-container">
+        <table className="teachers-table">
+          <thead>
+            <tr>
+              <SortableHeader label="Name" field="name" />
+              <SortableHeader label="Department" field="department" />
+              <th>Contact</th>
+              <th>Courses</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredTeachers.map((teacher) => (
+              <tr key={teacher.id}>
+                <td>
+                  <div className="teacher-name">
+                    <User className="user-icon" />
+                    <div>
+                      <div className="name">{teacher.name}</div>
+                      <div className="email-small">{teacher.email}</div>
+                    </div>
+                  </div>
+                </td>
+                <td>{teacher.department}</td>
+                <td>
+                  <div className="contact-info">
+                    <div className="contact-item">
+                      <Mail className="contact-icon" />
+                      <span>{teacher.email}</span>
+                    </div>
+                    <div className="contact-item">
+                      <Phone className="contact-icon" />
+                      <span>{teacher.phone}</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div className="courses-list">
+                    {teacher.courses.map((course, index) => (
+                      <span key={index} className="course-tag">
+                        {course}
+                      </span>
+                    ))}
+                  </div>
+                </td>
+                <td>
+                  <span className={`status-tag ${teacher.status.toLowerCase()}`}>
+                    {teacher.status}
+                  </span>
+                </td>
               </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {filteredTeachers.map((teacher) => (
-                <tr key={teacher.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-3">
-                      <User className="h-5 w-5 text-purple-600" />
-                      <div>
-                        <div className="font-medium text-gray-800">{teacher.name}</div>
-                        <div className="text-gray-500 text-xs">{teacher.email}</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-4 py-3 text-gray-800">{teacher.department}</td>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-2">
-                      <Mail className="h-4 w-4 text-gray-500" />
-                      <span className="text-gray-800">{teacher.email}</span>
-                    </div>
-                    <div className="flex items-center gap-2 mt-1">
-                      <Phone className="h-4 w-4 text-gray-500" />
-                      <span className="text-gray-800">{teacher.phone}</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-3">
-                    <div className="flex flex-wrap gap-2">
-                      {teacher.courses.map((course, index) => (
-                        <span
-                          key={index}
-                          className="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-xs"
-                        >
-                          {course}
-                        </span>
-                      ))}
-                    </div>
-                  </td>
-                  <td className="px-4 py-3">
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs ${
-                        teacher.status === 'Active'
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-yellow-100 text-yellow-800'
-                      }`}
-                    >
-                      {teacher.status}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

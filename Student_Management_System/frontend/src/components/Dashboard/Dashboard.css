@@ -1,0 +1,238 @@
+/* Base styles */
+:root {
+    --purple-500: #8b5cf6;
+    --purple-400: #a78bfa;
+    --blue-500: #3b82f6;
+    --blue-400: #60a5fa;
+    --pink-500: #ec4899;
+    --pink-400: #f472b6;
+    --yellow-500: #eab308;
+    --yellow-400: #facc15;
+    --gray-50: #f8fafc;
+    --gray-800: #1f2937;
+    --gray-700: #374151;
+    --gray-500: #6b7280;
+    --gray-100: #f3f4f6;
+  }
+  
+  /* Layout */
+  .dashboard {
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, var(--gray-50), white);
+    padding: 1.5rem;
+  }
+  
+  .container {
+    max-width: 80rem;
+    margin: 0 auto;
+  }
+  
+  /* Grid layouts */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .charts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  /* Quick Stats Cards */
+  .stat-card {
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .stat-card-purple {
+    background: linear-gradient(to right, var(--purple-500), var(--purple-400));
+  }
+  
+  .stat-card-blue {
+    background: linear-gradient(to right, var(--blue-500), var(--blue-400));
+  }
+  
+  .stat-card-pink {
+    background: linear-gradient(to right, var(--pink-500), var(--pink-400));
+  }
+  
+  .stat-card-yellow {
+    background: linear-gradient(to right, var(--yellow-500), var(--yellow-400));
+  }
+  
+  .stat-card h3 {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .stat-card p {
+    color: white;
+    font-size: 1.875rem;
+    font-weight: bold;
+  }
+  
+  /* Chart Cards */
+  .chart-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  
+  .chart-card h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--gray-800);
+    margin-bottom: 1rem;
+  }
+  
+  .chart-container {
+    height: 16rem;
+  }
+  
+  /* Info Cards */
+  .info-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  
+  .card-header h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--gray-800);
+  }
+  
+  .card-header svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--purple-500);
+  }
+  
+  /* List Items */
+  .list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .item-icon {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .item-icon.exam {
+    background-color: #fee2e2;
+  }
+  
+  .item-icon.assignment {
+    background-color: #dbeafe;
+  }
+  
+  .item-icon.event {
+    background-color: #dcfce7;
+  }
+  
+  .item-icon.activity {
+    background-color: var(--gray-100);
+  }
+  
+  .item-icon.success {
+    background-color: #dcfce7;
+  }
+  
+  .item-icon.warning {
+    background-color: #fef9c3;
+  }
+  
+  .item-icon.info {
+    background-color: #dbeafe;
+  }
+  
+  .item-icon svg {
+    width: 1rem;
+    height: 1rem;
+    color: var(--gray-700);
+  }
+  
+  .item-content {
+    flex: 1;
+  }
+  
+  .item-title {
+    font-weight: 500;
+    color: var(--gray-800);
+  }
+  
+  .item-subtitle {
+    font-size: 0.875rem;
+    color: var(--gray-500);
+  }
+  
+  .view-details {
+    font-size: 0.875rem;
+    color: var(--blue-500);
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .view-details:hover {
+    color: #1d4ed8;
+  }
+  
+  .chevron-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--purple-500);
+  }
+  
+  /* Media Queries */
+  @media (min-width: 768px) {
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .stats-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .charts-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .info-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
