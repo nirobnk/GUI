@@ -22,6 +22,8 @@ const LoginPage = ({ onLogin }) => {
 
       const data = await response.json();
       if (data.success) {
+        // Store the username to identify the user later
+        localStorage.setItem('username', username);
         onLogin(data.userType);
         navigate('/users'); // Redirect to /users after successful login
       } else {
@@ -33,7 +35,7 @@ const LoginPage = ({ onLogin }) => {
   };
 
   return (
-      <div className="login-container">
+    <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
         <h2>Login</h2>
         <div className="form-group">
@@ -68,7 +70,6 @@ const LoginPage = ({ onLogin }) => {
         <button type="submit">Login</button>
       </form>
     </div>
-    
   );
 };
 

@@ -38,15 +38,15 @@
 }
 
 .summary-card.purple {
-  background: linear-gradient(to right, #a855f7, #d946ef); /* purple-500 to purple-400 */
+  background: linear-gradient(to right, #a855f7, #d946ef); 
 }
 
 .summary-card.blue {
-  background: linear-gradient(to right, #3b82f6, #60a5fa); /* blue-500 to blue-400 */
+  background: linear-gradient(to right, #3b82f6, #60a5fa); 
 }
 
 .summary-card.green {
-  background: linear-gradient(to right, #22c55e, #4ade80); /* green-500 to green-400 */
+  background: linear-gradient(to right, #22c55e, #4ade80); 
 }
 
 .chart-container {
@@ -54,7 +54,7 @@
   padding: 24px;
   border-radius: 16px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  min-height: 400px; /* Increased from implicit height */
+  min-height: 400px; 
 }
 
 .chart-container h3 {
@@ -65,7 +65,7 @@
 }
 
 .chart {
-  height: 350px; /* Increased from 256px */
+  height: 350px; 
 }
 
 .table-container {

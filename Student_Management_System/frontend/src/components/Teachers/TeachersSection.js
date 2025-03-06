@@ -11,52 +11,113 @@ const TeachersSection = () => {
   });
 
   const teachers = [
+    // Electrical and Information Engineering
     {
       id: 1,
-      name: 'Dr. Sarah Johnson',
-      department: 'Computer Science',
-      email: 'sarah.j@university.edu',
-      phone: '+1 (555) 123-4567',
-      courses: ['Data Structures', 'Algorithms'],
+      name: 'Dr. Nimal Perera',
+      department: 'Electrical and Information Engineering',
+      email: 'nimal.p@eng.ruh.ac.lk',
+      phone: '+94 77 123 4567',
+      courses: ['Power Systems', 'Electrical Machines'],
       status: 'Active'
     },
     {
       id: 2,
-      name: 'Prof. Michael Smith',
-      department: 'Mathematics',
-      email: 'michael.s@university.edu',
-      phone: '+1 (555) 234-5678',
-      courses: ['Calculus I', 'Linear Algebra'],
+      name: 'Prof. Kamal Wijesinghe',
+      department: 'Electrical and Information Engineering',
+      email: 'kamal.w@eng.ruh.ac.lk',
+      phone: '+94 71 987 6543',
+      courses: ['Control Systems', 'Digital Signal Processing'],
       status: 'Active'
     },
     {
       id: 3,
-      name: 'Dr. Emily Brown',
-      department: 'Physics',
-      email: 'emily.b@university.edu',
-      phone: '+1 (555) 345-6789',
-      courses: ['Mechanics', 'Electromagnetism'],
+      name: 'Dr. Saman Jayawardena',
+      department: 'Electrical and Information Engineering',
+      email: 'saman.j@eng.ruh.ac.lk',
+      phone: '+94 76 234 5678',
+      courses: ['Electronic Circuits', 'Microprocessor Systems'],
       status: 'On Leave'
     },
     {
       id: 4,
-      name: 'Dr. James Wilson',
-      department: 'English',
-      email: 'james.w@university.edu',
-      phone: '+1 (555) 456-7890',
-      courses: ['Introduction to Literature', 'Creative Writing'],
+      name: 'Dr. Thilini Fernando',
+      department: 'Electrical and Information Engineering',
+      email: 'thilini.f@eng.ruh.ac.lk',
+      phone: '+94 70 345 6789',
+      courses: ['Renewable Energy', 'Power Electronics'],
       status: 'Active'
     },
     {
       id: 5,
-      name: 'Prof. Lisa Thompson',
-      department: 'Computer Science',
-      email: 'lisa.t@university.edu',
-      phone: '+1 (555) 567-8901',
-      courses: ['Database Management', 'Web Development'],
+      name: 'Prof. Anura Karunaratne',
+      department: 'Electrical and Information Engineering',
+      email: 'anura.k@eng.ruh.ac.lk',
+      phone: '+94 75 456 7890',
+      courses: ['Embedded Systems', 'Communication Systems'],
+      status: 'Active'
+    },
+
+    // Civil Engineering
+    {
+      id: 6,
+      name: 'Dr. Ruwan Perera',
+      department: 'Civil Engineering',
+      email: 'ruwan.p@eng.ruh.ac.lk',
+      phone: '+94 77 654 3210',
+      courses: ['Structural Analysis', 'Concrete Technology'],
+      status: 'Active'
+    },
+    {
+      id: 7,
+      name: 'Prof. Chamika Gunawardena',
+      department: 'Civil Engineering',
+      email: 'chamika.g@eng.ruh.ac.lk',
+      phone: '+94 71 123 4567',
+      courses: ['Geotechnical Engineering', 'Transportation Engineering'],
+      status: 'Active'
+    },
+
+    // Mechanical Engineering
+    {
+      id: 8,
+      name: 'Dr. Lakshman Perera',
+      department: 'Mechanical Engineering',
+      email: 'lakshman.p@eng.ruh.ac.lk',
+      phone: '+94 70 765 4321',
+      courses: ['Fluid Mechanics', 'Thermodynamics'],
+      status: 'Active'
+    },
+    {
+      id: 9,
+      name: 'Prof. Sandeep Jayawardena',
+      department: 'Mechanical Engineering',
+      email: 'sandeep.j@eng.ruh.ac.lk',
+      phone: '+94 75 987 6543',
+      courses: ['Manufacturing Processes', 'Machine Design'],
+      status: 'Active'
+    },
+
+    // Marine Engineering
+    {
+      id: 10,
+      name: 'Dr. Dinesh Perera',
+      department: 'Marine Engineering',
+      email: 'dinesh.p@eng.ruh.ac.lk',
+      phone: '+94 76 123 8901',
+      courses: ['Ship Design', 'Marine Power Systems'],
+      status: 'Active'
+    },
+    {
+      id: 11,
+      name: 'Prof. Ranjith Wijesinghe',
+      department: 'Marine Engineering',
+      email: 'ranjith.w@eng.ruh.ac.lk',
+      phone: '+94 71 345 6789',
+      courses: ['Marine Propulsion', 'Offshore Structures'],
       status: 'Active'
     }
-  ];
+];
 
   const handleSort = (key) => {
     let direction = 'asc';

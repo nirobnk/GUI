@@ -1,265 +1,8 @@
-// // server.js
-// const express = require("express");
-// const sqlite3 = require("sqlite3").verbose();
-// const cors = require("cors");
-// const bcrypt = require("bcryptjs");
-// const jwt = require("jsonwebtoken");
-// require("dotenv").config(); // Load environment variables from .env file
-
-// const app = express();
-
-// // CORS configuration
-// const corsOptions = {
-//   origin: "http://localhost:3000", // Your React app's URL
-//   credentials: true,
-//   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-//   allowedHeaders: ["Content-Type", "Authorization"],
-// };
-
-// app.use(cors(corsOptions));
-// app.use(express.json());
-
-// // JWT secret key
-// const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
-
-// // Database setup
-// const db = new sqlite3.Database("students.db");
-
-// // Create students table
-// db.run(`
-//   CREATE TABLE IF NOT EXISTS eestudents (
-//     student_id TEXT PRIMARY KEY,
-// first_name TEXT,
-// last_name TEXT,
-// email TEXT UNIQUE,
-// birthday TEXT,
-// address TEXT,
-// phone_num TEXT,
-// department TEXT,
-// enroll_date TEXT,
-// year TEXT,
-// gpa TEXT,
-// attendence TEXT,
-// password TEXT
-//   )
-// `);
-
-// // Authentication middleware
-// const authenticateToken = (req, res, next) => {
-//   const token = req.headers["authorization"]?.split(" ")[1];
-
-//   if (!token) {
-//     return res.status(401).json({ error: "Authentication required" });
-//   }
-
-//   jwt.verify(token, JWT_SECRET, (err, user) => {
-//     if (err) return res.status(403).json({ error: "Invalid token" });
-//     req.user = user;
-//     next();
-//   });
-// };
-
-// // Input validation for student data
-// const validateStudentData = (student) => {
-//   if (
-//     !student.student_id ||
-//     !student.first_name ||
-//     !student.last_name ||
-//     !student.email ||
-//     !student.birthday ||
-//     !student.address ||
-//     !student.phone_num ||
-//     !student.department ||
-//     !student.enroll_date ||
-//     !student.year ||
-//     !student.gpa ||
-//     !student.attendence ||
-//     !student.password
-//   ) {
-//     return false;
-//   }
-//   return true;
-// };
-
-// // Login endpoint
-// app.post("/api/login", (req, res) => {
-//   console.log("Login request received:", req.body);
-//   const { username, password, role } = req.body;
-
-//   if (role === "admin") {
-//     console.log("Admin login attempt");
-//     if (username === "admin" && password === "admin") {
-//       console.log("Admin login successful");
-//       const token = jwt.sign({ username, role }, JWT_SECRET);
-//       return res.json({ token, role: "admin" });
-//     }
-//     return res.status(401).json({ error: "Invalid credentials" });
-//   }
-
-//   // Student login
-//   db.get(
-//     "SELECT * FROM eestudents WHERE student_id = ?",
-//     [username],
-//     async (err, student) => {
-//       if (err) {
-//         console.error("Database error:", err);
-//         return res.status(500).json({ error: "Database error" });
-//       }
-//       if (!student) {
-//         return res.status(401).json({ error: "Invalid credentials" });
-//       }
-
-//       // Compare hashed password
-//       const passwordMatch = await bcrypt.compare(password, student.password);
-//       if (passwordMatch) {
-//         const token = jwt.sign(
-//           { username: student.student_id, role: "student" },
-//           JWT_SECRET
-//         );
-//         return res.json({ token, role: "student", studentData: student });
-//       }
-//       return res.status(401).json({ error: "Invalid credentials" });
-//     }
-//   );
-// });
-
-// // Get next student ID
-// app.get("/api/next-student-id", authenticateToken, (req, res) => {
-//   if (req.user.role !== "admin") {
-//     return res.status(403).json({ error: "Admin access required" });
-//   }
-
-//   db.get(
-//     "SELECT student_id FROM eestudents ORDER BY student_id DESC LIMIT 1",
-//     (err, row) => {
-//       if (err) {
-//         console.error("Database error:", err);
-//         return res.status(500).json({ error: "Database error" });
-//       }
-
-//       if (!row) {
-//         return res.json({ nextId: "EG24001" });
-//       }
-
-//       const currentNumber = parseInt(row.student_id.slice(4));
-//       const nextNumber = currentNumber + 1;
-//       const nextId = `EG24${String(nextNumber).padStart(3, "0")}`;
-//       res.json({ nextId });
-//     }
-//   );
-// });
-
-// // Add new student (admin only)
-// app.post("/api/students", authenticateToken, async (req, res) => {
-//   if (req.user.role !== "admin") {
-//     return res.status(403).json({ error: "Admin access required" });
-//   }
-
-//   const student = req.body;
-
-//   if (!validateStudentData(student)) {
-//     return res.status(400).json({ error: "Invalid student data" });
-//   }
-
-//   // Hash the password
-//   const saltRounds = 10;
-//   const hashedPassword = await bcrypt.hash(student.password, saltRounds);
-
-//   db.run(
-//     `
-//     INSERT INTO eestudents (
-//       student_id, first_name, last_name, email, birthday, address,
-//       phone_num, department, enroll_date, year, gpa, attendence, password
-//     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-//   `,
-//     [
-//       student.student_id,
-//       student.first_name,
-//       student.last_name,
-//       student.email,
-//       student.birthday,
-//       student.address,
-//       student.phone_num,
-//       student.department,
-//       student.enroll_date,
-//       student.year,
-//       student.gpa,
-//       student.attendence,
-//       hashedPassword,
-//     ],
-//     (err) => {
-//       if (err) {
-//         console.error("Database error:", err);
-//         return res.status(500).json({ error: "Database error" });
-//       }
-//       res.json({ message: "Student added successfully" });
-//     }
-//   );
-// });
-
-// // Get all students (admin only)
-// app.get("/api/students", authenticateToken, (req, res) => {
-//   if (req.user.role !== "admin") {
-//     return res.status(403).json({ error: "Admin access required" });
-//   }
-
-//   db.all("SELECT * FROM eestudents", (err, rows) => {
-//     if (err) {
-//       console.error("Database error:", err);
-//       return res.status(500).json({ error: "Database error" });
-//     }
-//     res.json(rows);
-//   });
-// });
-
-// // Get student by ID
-// app.get("/api/students/:id", authenticateToken, (req, res) => {
-//   if (req.user.role !== "admin" && req.user.username !== req.params.id) {
-//     return res.status(403).json({ error: "Access denied" });
-//   }
-
-//   db.get(
-//     "SELECT * FROM eestudents WHERE student_id = ?",
-//     [req.params.id],
-//     (err, row) => {
-//       if (err) {
-//         console.error("Database error:", err);
-//         return res.status(500).json({ error: "Database error" });
-//       }
-//       if (!row) {
-//         return res.status(404).json({ error: "Student not found" });
-//       }
-//       res.json(row);
-//     }
-//   );
-// });
-
-// // Test endpoint
-// app.get("/api/test", (req, res) => {
-//   res.json({ message: "Server is running!" });
-// });
-// // Add this endpoint to your server.js
-// app.get("/api/students", authenticateToken, (req, res) => {
-//   db.all("SELECT * FROM eestudents", (err, rows) => {
-//     if (err) {
-//       console.error("Database error:", err);
-//       return res.status(500).json({ error: "Database error" });
-//     }
-//     res.json(rows);
-//   });
-// });
-
-// // Start the server
-// const PORT = 5008;
-// app.listen(PORT, () => {
-//   console.log(`Server running on port ${PORT}`);
-// });
-
 const express = require("express");
 const sqlite3 = require("sqlite3").verbose();
 const cors = require("cors");
 const app = express();
-const port = 5110;
+const port = 5108;
 
 // Middleware
 app.use(cors());
@@ -338,6 +81,20 @@ app.get("/api/users", (req, res) => {
     }
   });
 });
+//Get student list
+app.get("/students", (req, res) => {
+  db.all(
+    `SELECT id, first_name, last_name, age, birthday, address, enroll_date, phone_num, email, username, password, department, year, gpa, attendence, advisor 
+     FROM users`,
+    [],
+    (err, rows) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      res.json(rows);
+    }
+  );
+});
 
 // Add new user (admin only)
 app.post("/api/users", (req, res) => {
@@ -391,29 +148,171 @@ app.post("/api/users", (req, res) => {
   );
 });
 
+
+// Update user (admin only)
+// app.put("/api/users/:id", (req, res) => {
+//   const studentId = req.params.id;
+//   const {
+//     username,
+//     password,
+//     age,
+//     first_name,
+//     last_name,
+//     email,
+//     birthday,
+//     address,
+//     phone_num,
+//     department,
+//     enroll_date,
+//     year,
+//     gpa,
+//     attendence,
+//     advisor,
+//   } = req.body;
+
+//   db.run(
+//     `UPDATE users 
+//      SET username = ?, password = ?, age = ?, first_name = ?, last_name = ?, email = ?, 
+//          birthday = ?, address = ?, phone_num = ?, department = ?, enroll_date = ?, 
+//          year = ?, gpa = ?, attendence = ?, advisor = ? 
+//      WHERE id = ?`,
+//     [
+//       username,
+//       password,
+//       age,
+//       first_name,
+//       last_name,
+//       email,
+//       birthday,
+//       address,
+//       phone_num,
+//       department,
+//       enroll_date,
+//       year,
+//       gpa,
+//       attendence,
+//       advisor,
+//       studentId,
+//     ],
+//     function (err) {
+//       if (err) {
+//         res.status(500).json({ error: err.message });
+//       } else if (this.changes === 0) {
+//         res.status(404).json({ error: "Student not found" });
+//       } else {
+//         res.json({ success: true, message: "Student updated successfully" });
+//       }
+//     }
+//   );
+// });
+
+// Get user by username
+app.get("/api/users/:username", (req, res) => {
+  const username = req.params.username;
+  
+  db.get(
+    "SELECT * FROM users WHERE username = ?",
+    [username],
+    (err, user) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      res.json(user);
+    }
+  );
+});
+
+
 // Update user (admin only)
 app.put("/api/users/:id", (req, res) => {
-  const { username, age } = req.body;
+  const studentId = req.params.id;
+  const {
+    username,
+    password,
+    age,
+    first_name,
+    last_name,
+    email,
+    birthday,
+    address,
+    phone_num,
+    department,
+    enroll_date,
+    year,
+    gpa,
+    attendence,
+    advisor,
+  } = req.body;
+
+  // Log the received data for debugging
+  console.log("Updating student ID:", studentId);
+  console.log("Update data:", req.body);
+  
+  // Make sure to handle null/undefined values
+  const safeAge = age || null;
+  
   db.run(
-    "UPDATE users SET username = ?, age = ? WHERE id = ?",
-    [username, age, req.params.id],
-    (err) => {
+    `UPDATE users 
+     SET username = COALESCE(?, username),
+         password = COALESCE(?, password),
+         age = COALESCE(?, age),
+         first_name = COALESCE(?, first_name),
+         last_name = COALESCE(?, last_name),
+         email = COALESCE(?, email),
+         birthday = COALESCE(?, birthday),
+         address = COALESCE(?, address),
+         phone_num = COALESCE(?, phone_num),
+         department = COALESCE(?, department),
+         enroll_date = COALESCE(?, enroll_date),
+         year = COALESCE(?, year),
+         gpa = COALESCE(?, gpa),
+         attendence = COALESCE(?, attendence),
+         advisor = COALESCE(?, advisor)
+     WHERE id = ?`,
+    [
+      username,
+      password,
+      safeAge,
+      first_name,
+      last_name,
+      email,
+      birthday,
+      address,
+      phone_num,
+      department,
+      enroll_date,
+      year,
+      gpa,
+      attendence,
+      advisor,
+      studentId,
+    ],
+    function (err) {
       if (err) {
+        console.error("Database error during update:", err);
         res.status(500).json({ error: err.message });
+      } else if (this.changes === 0) {
+        res.status(404).json({ error: "Student not found" });
       } else {
-        res.json({ success: true });
+        res.json({ success: true, message: "Student updated successfully" });
       }
     }
   );
 });
 
-// Delete user (admin only)
-app.delete("/api/users/:id", (req, res) => {
-  db.run("DELETE FROM users WHERE id = ?", req.params.id, (err) => {
+app.delete("/students/:id", (req, res) => {
+  const studentId = req.params.id;
+
+  db.run("DELETE FROM users WHERE id = ?", [studentId], function (err) {
     if (err) {
       res.status(500).json({ error: err.message });
+    } else if (this.changes === 0) {
+      res.status(404).json({ error: "Student not found" });
     } else {
-      res.json({ success: true });
+      res.json({ success: true, message: "Student deleted successfully" });
     }
   });
 });

@@ -8,52 +8,52 @@ const ClassSchedule = () => {
   const scheduleData = [
     {
       id: 1,
-      subject: 'Mathematics',
+      subject: 'Programming',
       day: 'Monday',
       startTime: '09:00',
       endTime: '10:30',
       room: 'Room 101',
-      instructor: 'Dr. Johnson',
+      instructor: 'Dr. Rajitha',
       colorClass: 'class-blue'
     },
     {
       id: 2,
-      subject: 'Physics',
+      subject: 'Complex analysis',
       day: 'Monday',
       startTime: '11:00',
       endTime: '12:30',
       room: 'Lab 203',
-      instructor: 'Prof. Smith',
+      instructor: 'Prof. Wagachchi',
       colorClass: 'class-purple'
     },
     {
       id: 3,
-      subject: 'Computer Science',
+      subject: 'Computer Networking',
       day: 'Tuesday',
       startTime: '10:00',
       endTime: '11:30',
       room: 'Lab 105',
-      instructor: 'Dr. Wilson',
+      instructor: 'Dr. Keerthi Rathne',
       colorClass: 'class-green'
     },
     {
       id: 4,
-      subject: 'Chemistry',
+      subject: 'GUI programming',
       day: 'Wednesday',
       startTime: '14:00',
       endTime: '15:30',
       room: 'Lab 302',
-      instructor: 'Dr. Brown',
+      instructor: 'Dr.Yugani',
       colorClass: 'class-yellow'
     },
     {
       id: 5,
-      subject: 'English',
+      subject: 'English for Engineering',
       day: 'Thursday',
       startTime: '13:00',
       endTime: '14:30',
       room: 'Room 202',
-      instructor: 'Dr. Carter',
+      instructor: 'Dr. Batuwatta',
       colorClass: 'class-pink'
     }
   ];
