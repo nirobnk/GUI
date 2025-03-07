@@ -289,7 +289,7 @@ const StudentsSection = ({ userType }) => {
             <thead>
               <tr>
                 <SortableHeader label="Name" field="name" />
-                <SortableHeader label="Roll No" field="rollNo" />
+                <SortableHeader label="Reg No" field="rollNo" />
                 <SortableHeader label="Department" field="department" />
                 <SortableHeader label="Year" field="year" />
                 <SortableHeader label="GPA" field="gpa" />
